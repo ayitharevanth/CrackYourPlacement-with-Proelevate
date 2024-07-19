@@ -1,40 +1,41 @@
-class LinkedList(object):
-	def __init__(self):
-
-		# head of list
-		self.head = None
-
-	# Linked list Node
-	class Node(object):
-		def __init__(self, d):
-			self.data = d
-			self.next = None
-
-	def sortList(self):
-
-		# initialise count of 0 1 and 2 as 0
-		count = [0, 0, 0]
-
-		ptr = self.head
-
-		while ptr != None:
-			count[ptr.data]+=1
-			ptr = ptr.next
-
-		i = 0
-		ptr = self.head
-
-		while ptr != None:
-			if count[i] == 0:
-				i+=1
-			else:
-				ptr.data = i
-				count[i]-=1
-				ptr = ptr.next
-
-
-	def push(self, new_data):
-		new_node = self.Node(new_data)
-		new_node.next = self.head
-
-		self.head = new_node
+class Solution:
+    #Function to sort a linked list of 0s, 1s and 2s.
+    def segregate(self, head):
+        
+        #creating three dummy nodes to point to beginning of three linked lists.
+        zeroD =Node(0)
+        oneD = Node(1)
+        twoD = Node(2)
+    
+        #initializing current pointers for three lists.
+        zero = zeroD
+        one = oneD
+        two = twoD
+        
+        
+        curr_node = head
+        #traversing over the list with a pointer.
+        while curr_node :
+            
+            #we check data at current node and store the node in it's
+            #respective list and update the link part of that list.
+            if curr_node.data == 0:
+                zero.next = curr_node
+                zero = zero.next
+            elif curr_node.data == 1:
+                one.next = curr_node
+                one = one.next
+            else:
+                two.next = curr_node
+                two =two.next
+            curr_node = curr_node.next
+        
+        #attaching the three lists containing 0s,1s and 2s respectively.
+        if oneD.next :
+            zero.next = oneD.next
+        else:
+            zero.next = twoD.next
+        one.next = twoD.next
+        two.next = None
+        
+        return zeroD.next
