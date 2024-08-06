@@ -12,18 +12,27 @@ function canWePlace(stalls, dist, cows) {
 }
 
 function aggressiveCows(stalls, k) {
-
-    // first we will Sort the stalls
     stalls.sort((a, b) => a - b);
-    const maxLimit = stalls[stalls.length - 1] - stalls[0];
-    for (let i = 1; i <= maxLimit; i++) {
-        if (!canWePlace(stalls, i, k)) {
-            return i - 1;
+    let low = 1, high = stalls[stalls.length - 1] - stalls[0];
+    let ans = 0;
+    // Initialize answer variable
+
+    // Binary search
+    while (low <= high) {
+        // Calculate mid 
+        let mid = Math.floor((low + high) / 2);
+        if (canWePlace(stalls, mid, k)) {
+            // Update answer
+            ans = mid;
+            low = mid + 1;
+        } else {
+            high = mid - 1;
         }
     }
-    // else 
-    return maxLimit;
+
+    return ans;
 }
+
 
 const stalls = [1, 2, 4, 8, 9];
 const k = 3;
